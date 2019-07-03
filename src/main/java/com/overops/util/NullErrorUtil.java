@@ -9,8 +9,15 @@ import org.slf4j.LoggerFactory;
 public class NullErrorUtil {
 	private final static Logger log = LoggerFactory.getLogger(NullErrorUtil.class);
 	
+	/*
+	 *  This method loops a given number of times and
+	 *  generates random caught and uncaught nullPointerExceptions
+	 *  
+	 *  Version 1.0
+	 *  */
 	public static void testErrors (int numOfIterations) {
 		List<String> dataList = setupData();
+		/* first let's log something useful */
 		log.debug("Random NullPointer Error generation for {} iterations ", numOfIterations);
 		
 		for (int i = 0; i < numOfIterations; i++) {	
@@ -19,19 +26,23 @@ public class NullErrorUtil {
 			log.debug("Case number is {}", value);
 			switch (value) {
 				case 0 :
+					/* Test a handled nullPointerException */
 					testCaughtNulls(getRandomString(dataList));
 					break;
 				case 1 : 
 					try {
+						/* test an uncaught nullPointerException */
 						testUncaughtNulls(getRandomString(dataList));
 					} catch (Exception e) {
 						log.error("This error was uncaught", RandomUtil.convertStackTraceToString(e));
 					}
 					break;
 				case 2 :
+					/* Test a swallowed nullPointerException */
 					testSwallowedNulls(getRandomString(dataList));
 					break;
 				case 3 :
+					/* do something normal */
 					intermediateMethod(getRandomString(dataList));
 					break;
 			}
